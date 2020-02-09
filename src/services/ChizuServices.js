@@ -5,15 +5,34 @@ const http=axios.create({
     withCredentials: true
 })
 
-const login = (({...data}) => http.post('/login',{...data}))
-const logout = (()=> http.post('/logout'))
 const register = (({...data}) => http.post('/users/register', {...data}))
-const profile = (({...data}) => http.patch(`/users/${data.id}`, {...data}))
+const validate = (() => http.get('/validate/:validateToken'))
+const editUser = (({...data}) => http.patch('/users/edit', {...data}))
+const deleteUser = (() => http.post('/users/delete'))
+const login = (({...data}) => http.post('/login',{...data}))
+const socialLogin = (({...data}) => http.post('/users/socialLogin', {...data}))
+const logout = (() => http.post('/logout'))
 
+const addLocation = (({...data}) => http.post('/addLocation', {...data}))
+const editLocation = (({...data}) => http.patch('/editLocation/:locationId', {...data}))
+const deleteLocation = (() => http.post('/deleteLocation/:locationId'))
+
+const addRoute = (({...data}) => http.post('/addRoute', {...data}))
+const editRoute = (({...data}) => http.patch('/editRoute/:routeId', {...data}))
+const deleteRoute = (() => http.post('/deleteRoute/:routeId'))
 
 export default {
-    login,
-    logout,
     register,
-    profile
+    validate,
+    editUser,
+    deleteUser,
+    login,
+    socialLogin,
+    logout,
+    addLocation,
+    editLocation,
+    deleteLocation,
+    addRoute,
+    editRoute,
+    deleteRoute
 }
