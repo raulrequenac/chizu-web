@@ -1,0 +1,56 @@
+.Home > .content {
+  background-color: brown;
+  height: 105rem;
+  margin-top: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22rem 3rem;
+}
+
+.Home > .content > h1,
+.Home > .content > h2,
+.Home > .content > p{
+  color: white;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.Home > .content > h1,
+.Home > .content > h2 {
+  font-weight: bolder;
+}
+
+.Home > .content > h1 {
+  font-size: 9rem;
+  margin-bottom: 0;
+}
+
+.Home > .content > h2 {
+  font-size: 4rem
+}
+
+.Home > .content > p {
+  font-size: 3rem;
+  text-align: start;
+}
+
+.Home > .content > div {
+  width: -webkit-fill-available;
+}
+
+.Home > .content .start-button {
+  font-size: 5rem;
+  border: 2px solid white;
+  color: white;
+  margin-top: 16rem;
+}
+
+.Home > .content > .login {
+  width: -webkit-fill-available;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.Home > .content > .login > a {
+  color: darkorange;
+}

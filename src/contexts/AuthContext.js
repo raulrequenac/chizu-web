@@ -16,7 +16,6 @@ const AuthContextProvider = ({ children }) => {
                 setUser()
             })
     }
-
     
     const value = {
         currentUser: data,

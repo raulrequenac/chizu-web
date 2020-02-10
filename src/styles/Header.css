@@ -1,0 +1,8 @@
+.Header {
+  padding: 1rem 2rem !important;
+  background-color: white;
+}
+
+.Header > a > .logo {
+  height: 6rem;
+}

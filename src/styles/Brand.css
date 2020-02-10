@@ -1,0 +1,19 @@
+.Brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Brand > .logo {
+  margin-top: 33rem;
+  width: 56vw;
+}
+
+.Brand > .brand-name {
+  margin-top: 27rem;
+  font-size: 6rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: darkgray;
+  font-weight: bolder;
+}
