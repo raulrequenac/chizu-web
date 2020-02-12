@@ -1,37 +1,41 @@
 .Home > .content {
   background-color: brown;
-  height: 105rem;
-  margin-top: 8.5rem;
+  background-image: url('/images/chizu-bg.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 22rem 3rem;
+  padding: 30rem 3rem 0;
+  height: -webkit-fill-available;
 }
 
-.Home > .content > h1,
-.Home > .content > h2,
-.Home > .content > p{
+.Home > .content > .info > h1,
+.Home > .content > .info > h2,
+.Home > .content > .info > p{
   color: white;
+  text-align: start;
   font-family: 'Titillium Web', sans-serif;
 }
 
-.Home > .content > h1,
-.Home > .content > h2 {
+.Home > .content > .info > h1,
+.Home > .content > .info > h2 {
   font-weight: bolder;
 }
 
-.Home > .content > h1 {
+.Home > .content > .info > h1 {
   font-size: 9rem;
   margin-bottom: 0;
 }
 
-.Home > .content > h2 {
+.Home > .content > .info > h2 {
   font-size: 4rem
 }
 
-.Home > .content > p {
+.Home > .content > .info > p {
   font-size: 3rem;
-  text-align: start;
+  margin-bottom: 16rem;
 }
 
 .Home > .content > div {
@@ -42,13 +46,14 @@
   font-size: 5rem;
   border: 2px solid white;
   color: white;
-  margin-top: 16rem;
+  border-radius: 5rem;
 }
 
 .Home > .content > .login {
   width: -webkit-fill-available;
-  text-align: center;
   margin-top: 2rem;
+  font-size: 3rem;
+  color: white;
 }
 
 .Home > .content > .login > a {

@@ -1,25 +1,27 @@
 import axios from 'axios'
 
-const http=axios.create({
+const http = axios.create({
     baseURl: process.env.REACT_APP_API_URL,
     withCredentials: true
 })
 
-const register = (({...data}) => http.post('/users/register', {...data}))
-const validate = (() => http.get('/validate/:validateToken'))
-const editUser = (({...data}) => http.patch('/users/edit', {...data}))
-const deleteUser = (() => http.post('/users/delete'))
-const login = (({...data}) => http.post('/login',{...data}))
-const socialLogin = (({...data}) => http.post('/users/socialLogin', {...data}))
-const logout = (() => http.post('/logout'))
+const register = ({...data}) => http.post('/users/register', {...data})
+const validate = () => http.get('/validate/:validateToken')
+const editUser = ({...data}) => http.patch('/users/edit', {...data})
+const deleteUser = () => http.post('/users/delete')
+const login = (data) => http.post('/login',data)
+const socialLogin = ({...data}) => http.post('/users/socialLogin', {...data})
+const logout = () => http.post('/logout')
 
-const addLocation = (({...data}) => http.post('/addLocation', {...data}))
-const editLocation = (({...data}) => http.patch('/editLocation/:locationId', {...data}))
-const deleteLocation = (() => http.post('/deleteLocation/:locationId'))
+const addLocation = ({...data}) => http.post('/addLocation', {...data})
+const editLocation = ({...data}) => http.patch('/editLocation/:locationId', {...data})
+const deleteLocation = () => http.post('/deleteLocation/:locationId')
 
-const addRoute = (({...data}) => http.post('/addRoute', {...data}))
-const editRoute = (({...data}) => http.patch('/editRoute/:routeId', {...data}))
-const deleteRoute = (() => http.post('/deleteRoute/:routeId'))
+const addRoute = ({...data}) => http.post('/addRoute', {...data})
+const editRoute = ({...data}) => http.patch('/editRoute/:routeId', {...data})
+const deleteRoute = () => http.post('/deleteRoute/:routeId')
+
+const handleUpload = ({...data}) => http.post('upload', {...data})
 
 export default {
     register,
@@ -34,5 +36,6 @@ export default {
     deleteLocation,
     addRoute,
     editRoute,
-    deleteRoute
+    deleteRoute,
+    handleUpload
 }

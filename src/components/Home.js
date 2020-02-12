@@ -15,9 +15,11 @@ const Home = () => {
     <div className="Home">
       <Header move={move}/>
       <div className="content">
-        <h1>CHIZU</h1>
-        <h2>Elige tu camino.</h2>
-        <p>Con Chizu podrás encontrar las mejores rutas para tus viajes.</p>
+        <div className="info">
+          <h1>CHIZU</h1>
+          <h2>Elige tu camino.</h2>
+          <p>Con Chizu podrás encontrar las mejores rutas para tus viajes.</p>
+        </div>
         <DelayLink delay={900} to="/map" clickAction={handlerOnClick} replace={false}>
           <button type="button" className="start-button btn btn-block">Comenzar</button>
         </DelayLink>
