@@ -3,6 +3,6 @@
   background-color: white;
 }
 
-.Header > a > .logo {
+.Header > .logo {
   height: 6rem;
 }

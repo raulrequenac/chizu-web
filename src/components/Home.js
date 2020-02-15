@@ -20,7 +20,7 @@ const Home = () => {
           <h2>Elige tu camino.</h2>
           <p>Con Chizu podrás encontrar las mejores rutas para tus viajes.</p>
         </div>
-        <DelayLink delay={900} to="/map" clickAction={handlerOnClick} replace={false}>
+        <DelayLink delay={900} to="/locations" clickAction={handlerOnClick} replace={false}>
           <button type="button" className="start-button btn btn-block">Comenzar</button>
         </DelayLink>
         <p className="login">¿Ya usas Chizu? <Link to="/login"><b>Conectarse</b></Link></p>

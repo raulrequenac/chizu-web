@@ -6,7 +6,7 @@ import '../styles/Login.css'
 
 const Login = () => {
   const { setUser } = useContext(AuthContext)
-  const [data, setData] = useState({email:"",password:""})
+  const [data, setData] = useState({ email: "", password: "" })
   const [state, setState] = useState({ error: false, loading: false })
   const { error, loading } = state
 
@@ -21,7 +21,6 @@ const Login = () => {
   }
 
   useEffect(() => {
-
     const doLogin = chizuServices.login({...data})
       .then(
         (user) => setUser(user),
@@ -33,20 +32,40 @@ const Login = () => {
     }
   }, [loading, error, data, setUser])
 
-  return(
+  const errorClassName = this.state.error ? 'is-invalid' : ''
+
+  return (
     <div className="Login">
       <Header/>
       <form onSubmit={handleSubmit} className="login"> 
         <div className="form-group">
           <label>Email</label>
-          <input name="email" type="email" value={data.email} onChange={handleOnChange}/>
+          <input 
+            className={`form-control ${errorClassName}`} 
+            name="email" 
+            type="email" 
+            value={data.email} 
+            onChange={handleOnChange}
+          />
         </div>
 
         <div className="form-group">
           <label>Password</label>
-          <input name="password" type="password" value={data.password} onChange={handleOnChange}/>
+          <input
+            className={`form-control ${errorClassName}`}  
+            name="password" 
+            type="password" 
+            value={data.password} 
+            onChange={handleOnChange}
+          />
         </div>
-        <button type="submit" className="btn btn-primary btn-lg">Login</button>
+        <button 
+          type="submit" 
+          className="btn btn-primary btn-lg" 
+          disabled={this.state.loading}
+        >
+          Login
+        </button>
       </form>
     </div>
   )
