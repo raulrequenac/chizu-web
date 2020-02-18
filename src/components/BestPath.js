@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Loading from './Loading'
 
-const BestPath = ({info}) => {
+const BestPath = ({ info }) => {
   const { locations, limit, start } = info
   const [loading, setLoading] = useState(true)
 
@@ -33,6 +33,8 @@ const BestPath = ({info}) => {
   
     return results
   }
+
+  console.log(getCombinations(locations, limit))
 
   return (
     <div className="BestPath">
