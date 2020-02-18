@@ -7,7 +7,7 @@ import '../styles/Map.css'
 const Map = () => {
   const [userLocation, setUserLocation] = useState({})
   const [locations, setLocations] = useState([])
-  const [mapOpts, setMapOpts] = useState({ lng: -3.7034, lat: 40.4169, zoom: 22 })
+  const [mapOpts, setMapOpts] = useState({ lng: -3.7034, lat: 40.4169, zoom: 15 })
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
@@ -19,7 +19,8 @@ const Map = () => {
         userLocation.lng ? userLocation.lng : mapOpts.lng, 
         userLocation.lat ? userLocation.lat : mapOpts.lat
       ],
-      zoom: mapOpts.zoom
+      zoom: mapOpts.zoom,
+      "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf"
     });
 
     map.on("load", () => {
@@ -66,7 +67,6 @@ const Map = () => {
   return (
     <div className="Map">
       <Header />
-      <div className="mapOpts">Longitude: {mapOpts.lng} | Latitude: {mapOpts.lat} | Zoom: {mapOpts.zoom}</div>
       <div ref={mapContainer} className="mapbox"/>
     </div>
   )

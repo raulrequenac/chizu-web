@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Loading from './Loading'
+import { Redirect } from 'react-router-dom'
+import mapboxServices from '../services/MapboxServices'
 
 const BestPath = ({ info }) => {
   const { locations, limit, start } = info
@@ -33,14 +35,24 @@ const BestPath = ({ info }) => {
   
     return results
   }
+  
+  if (locations) {
+    let directions = [...getCombinations(locations, limit)]
+    let coordinates = directions.map(direction => direction.map(loc => loc.coordinates.join(',')).join(';'))
+    let coordinatesPromise = coordinates.map(coords => mapboxServices.directions(coords)
+      .then(route => coords = route))
 
-  console.log(getCombinations(locations, limit))
+    Promise.all(coordinatesPromise)
+      .then(coordinates => {
+        let distances = coordinates.map(coord => coord.data.routes[0].distance)
+        
+        console.log(...coordinates.filter(coord => coord.data.routes[0].distance === Math.min(...distances)))
+      })
+  }
 
   return (
     <div className="BestPath">
-      {loading ? <Loading /> : <div>
-        
-      </div>}
+      {locations ? (loading ? <Loading /> : <Redirect to='/map'/>) : <Redirect to='/locations'/>}
     </div>
   )
 }

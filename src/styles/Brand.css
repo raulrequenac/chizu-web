@@ -6,13 +6,13 @@
 }
 
 .Brand > .logo {
-  margin-top: 33rem;
-  width: 56vw;
+  margin-top: 11rem;
+  width: 50vw;
 }
 
 .Brand > .brand-name {
-  margin-top: 27rem;
-  font-size: 6rem;
+  margin-top: 10rem;
+  font-size: 2rem;
   font-family: 'Titillium Web', sans-serif;
   color: darkgray;
   font-weight: bolder;

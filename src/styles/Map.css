@@ -2,27 +2,11 @@
   
 }
 
-.Map > .mapOpts {
-  margin: 2rem;
-  display: inline-block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: #404040;
-  color: #ffffff;
-  z-index: 1 !important;
-  padding: 6px;
-  font-weight: bold;
-  height: 4rem;
-  width: -webkit-fill-available;
-  font-size: xx-large;
-}
-
 .Map > .mapbox {
   width: 100vw;
   height: 100vh;
   position: absolute;
-  padding-top: 8rem
+  padding-top: 3rem
 }
 
 .mapContainer {
@@ -34,13 +18,12 @@
   }
 
 .mapboxgl-ctrl-top-right {
-  margin-top: 9rem;
-  margin-right: 1rem;
+  margin-top: 3rem;
 }
 
 .mapboxgl-ctrl-top-right button {
-  height: 6rem;
-  width: 6rem;
+  height: 2rem;
+  width: 2rem;
 }
 
 .mapboxgl-ctrl span {

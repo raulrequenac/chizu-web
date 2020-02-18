@@ -5,14 +5,14 @@ import App from './components/App';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css'
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {AuthContextProvider} from './contexts/AuthContext';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router>
     <AuthContextProvider>
       <App />
     </AuthContextProvider>
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('root')
 );
