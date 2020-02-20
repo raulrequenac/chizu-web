@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../contexts/AuthContext'
+import LocationsContext from '../contexts/LocationsContext'
 import Header from './Header'
 import Location from './Location'
 import { Redirect } from 'react-router-dom'
+import '../styles/Locations.css'
+import queryString from 'query-string'
 
-const Locations = ({ setInfo }) => {
+const Locations = () => {
+  const { info, setInfo } = useContext(LocationsContext)
   const { currentUser } = useContext(AuthContext)
-  const [locations, setLocations] = useState((new Array(8)).fill(null))
   const [userLocations, setUserLocations] = useState([])
   const [limit, setLimit] = useState(1)
   const [start, setStart] = useState(null)
   const [redirect, setRedirect] = useState(false)
   const [realLocations, setRealLocations] = useState([])
+  const [locations, setLocations] = useState([...info.locations, ...((new Array(8-info.locations.length)).fill(null))])
+  const parse = queryString.parse(window.location.search)
 
   useEffect(() => {
     const newOptions = []
@@ -41,6 +46,9 @@ const Locations = ({ setInfo }) => {
   }, [locations])
 
   useEffect(() => {
+  })
+
+  useEffect(() => {
     return () => setRedirect(false)
   }, [])
 
@@ -50,7 +58,7 @@ const Locations = ({ setInfo }) => {
   }
 
   const handleOnChangeStart = (location) => {
-    if (locations[location]) start === location ? setStart(null) : setStart(location)
+    locations[location] && start===location ? setStart(null) : setStart(location)
   }
   
   const handleSubmit = (e) => {
@@ -70,21 +78,16 @@ const Locations = ({ setInfo }) => {
     }
   }
 
+  const locationValues = { start, locations, userLocations, setLocations, handleOnChangeStart}
+
   return (
     <div className="Locations">
       {redirect ? <Redirect push to='/best-path'/> : <div>
         <Header />
         <form onSubmit={handleSubmit}>
-          <Location 
-            start = {start}
-            locations = {locations}
-            realLocations = {realLocations}
-            userLocations = {userLocations}
-            setLocations = {setLocations}
-            handleOnChangeStart = {handleOnChangeStart}
-          />
+          <Location locationValues={locationValues}/>
           <select value={limit} onChange={handleOnChangeLimit}>
-            {locations.map((_, i) => (
+            {realLocations.map((_, i) => (
               <option value={i+1} key={i}>{i+1}</option>
             ))}
           </select>

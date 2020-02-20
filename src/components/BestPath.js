@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Loading from './Loading'
 import { Redirect } from 'react-router-dom'
 import mapboxServices from '../services/MapboxServices'
+import LocationsContext from '../contexts/LocationsContext'
 
-const BestPath = ({ info }) => {
+const BestPath = () => {
+  const { info } = useContext(LocationsContext)
   const { locations, limit, start } = info
   const [loading, setLoading] = useState(true)
 

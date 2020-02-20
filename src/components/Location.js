@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Async from 'react-select/async'
 import { Link } from 'react-router-dom'
 import mapboxServices from '../services/MapboxServices'
+import LocationsContext from '../contexts/LocationsContext'
 
-const Location = ({start, locations, userLocations, setLocations, handleOnChangeStart}) => {
+const Location = ({ locationValues }) => {
+  const {start, locations, userLocations, setLocations, handleOnChangeStart} = locationValues
+  const { info } = useContext(LocationsContext)
+  const [print, setPrint] = useState(false)
   let search = {}
+
+  useEffect(() => {
+    setPrint(true)
+  }, [info])
 
   const loadOptions = (query) => {
     return mapboxServices.searchLocation(query)
@@ -42,14 +50,14 @@ const Location = ({start, locations, userLocations, setLocations, handleOnChange
 
   return (
     <div className="Location">
-      {locations.map((location, i) => (
+      {print ? locations.map((_, i) => (
             <div className="form-group" key={i}>
               <Async 
                 loadOptions= {loadOptions} 
-                placeholder= {location || `location ${i+1}`}
+                placeholder= {info.locations[i] ? info.locations[i].label : `location ${i+1}`}
                 onChange= {(e) => handleOnChange(e, i)}
               />
-              <Link to='/map' className="btn btn-primary">Seleccionar en el mapa</Link>
+              <Link to={`/map?index=${i}`} className="btn btn-primary" >Seleccionar en el mapa</Link>
               <button type="button" className="btn btn-danger" onClick={() => onClickDeleteStop(i)}>Borrar parada</button>
               <input 
                 type="checkbox" 
@@ -57,7 +65,7 @@ const Location = ({start, locations, userLocations, setLocations, handleOnChange
                 onChange={() => handleOnChangeStart(i)}
               />
             </div>
-          ))}
+          )) : <></>}
     </div>
   )
 }

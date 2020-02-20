@@ -6,12 +6,15 @@ import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css'
 import { BrowserRouter as Router } from 'react-router-dom';
-import {AuthContextProvider} from './contexts/AuthContext';
+import { AuthContextProvider } from './contexts/AuthContext';
+import { LocationsContextProvider } from './contexts/LocationsContext'
 
 ReactDOM.render(
   <Router>
     <AuthContextProvider>
-      <App />
+      <LocationsContextProvider>
+        <App />
+      </LocationsContextProvider>
     </AuthContextProvider>
   </Router>,
   document.getElementById('root')

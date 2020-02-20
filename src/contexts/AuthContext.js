@@ -4,10 +4,10 @@ import ChizuServices from '../services/ChizuServices'
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
-  const [data, setData] = useState(JSON.parse(localStorage.getItem('data')))
+  const [data, setData] = useState(JSON.parse(localStorage.getItem('user')))
 
   const setUser = (user) => {
-    localStorage.storage.setItem('user', user ? JSON.stringify(user) : null)
+    localStorage.setItem('user', user ? JSON.stringify(user) : null)
     setData(user)
   }
 
