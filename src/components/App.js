@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Login from './Login';
 import '../styles/App.css'
@@ -7,7 +7,6 @@ import Home from './Home';
 import Map from './Map'
 import Locations from './Locations';
 import BestPath from './BestPath';
-import LocationsContext from '../contexts/LocationsContext';
 
 const App = () => {
   const [loading, setLoading] = useState(true)

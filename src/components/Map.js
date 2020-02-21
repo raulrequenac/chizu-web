@@ -1,18 +1,23 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
+import mapboxServices from '../services/MapboxServices'
+import LocationsContext from '../contexts/LocationsContext'
 import mapboxgl from 'mapbox-gl'
 import Header from './Header'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '../styles/Map.css'
 import pulsingDot from '../constants'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import queryString from 'query-string'
 
 const Map = () => {
+  const { locations, setLocations } = useContext(LocationsContext)
   const [userLocation, setUserLocation] = useState(null)
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
   const [marker, setMarker] = useState(null)
-  const index = queryString.parse(window.location.search).index
+  const [markerLocation, setMarkerLocation] = useState({})
+  const [redirect, setRedirect] = useState(false)
+  const parse = queryString.parse(window.location.search)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((el) => {
@@ -36,6 +41,7 @@ const Map = () => {
       }); 
   
       map.on("load", () => {
+        
         if (userLocation) {
           map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
           map.addSource('user', {
@@ -62,6 +68,7 @@ const Map = () => {
               'icon-image': 'pulsing-dot'
             }
           });
+
         }
         setMap(map);
         map.resize();
@@ -71,8 +78,52 @@ const Map = () => {
     }
   }, [map, userLocation])
 
+  // useEffect(() => {
+  //   if (map && parse.bestPath) {
+  //     mapboxServices.directions(parse.bestPath)
+  //       .then(response => {
+  //         let geojson = {
+  //           type: 'Feature',
+  //           properties: {},
+  //           geometry: {
+  //             type: 'LineString',
+  //             coordinates: response.data.routes[0].geometry.coordinates
+  //           }
+  //         }
+  //         if (map.getSource('route')) {
+  //           map.getSource('route').setData(geojson);
+  //         } else { // otherwise, make a new request
+  //           map.addLayer({
+  //             id: 'route',
+  //             type: 'line',
+  //             source: {
+  //               type: 'geojson',
+  //               data: {
+  //                 type: 'Feature',
+  //                 properties: {},
+  //                 geometry: {
+  //                   type: 'LineString',
+  //                   coordinates: geojson
+  //                 }
+  //               }
+  //             },
+  //             layout: {
+  //               'line-join': 'round',
+  //               'line-cap': 'round'
+  //             },
+  //             paint: {
+  //               'line-color': '#3887be',
+  //               'line-width': 5,
+  //               'line-opacity': 0.75
+  //             }
+  //           });
+  //         }
+  //       })
+  //   }
+  // }, [map, parse])
+
   useEffect(() => {
-    if (map) {
+    if (map && !parse.bestPath) {
       map.on("mousedown", (e) => {
         if (marker) marker.remove()
         let el = document.createElement('div');
@@ -82,25 +133,48 @@ const Map = () => {
           .setLngLat(e.lngLat)
           .addTo(map))
       })
-
-      if (marker) {
-        map.flyTo({
-          center: [
-            marker.getLngLat().lng.toFixed(4),
-            marker.getLngLat().lat.toFixed(4),
-          ]
-        })
-      }
     }
-  }, [map, marker, userLocation]);
+  }, [map, marker, userLocation, parse]);
+
+  useEffect(() => {
+    if (marker) {
+      map.flyTo({
+        center: [
+          marker.getLngLat().lng.toFixed(4),
+          marker.getLngLat().lat.toFixed(4),
+        ]
+      })
+      mapboxServices.searchByCoords(marker.getLngLat())
+        .then(response => {
+          const feature = response.data.features[0]
+          setMarkerLocation({
+            value: feature.id,
+            label: feature.place_name,
+            coordinates: feature.geometry.coordinates
+          })
+        })
+    }
+  }, [map, marker])
+
+  const handleOnClick = () => {
+    const newLocations = [...locations]
+    if (parse.index) newLocations[parse.index] = markerLocation
+    setLocations(newLocations)
+
+    setRedirect(true)
+  }
 
   return (
     <div className="Map">
-      <Header />
-      <div ref={mapContainer} className="mapbox"/>
-      {marker ? <div className="info">
-        <Link to={`/locations?lng=${marker.getLngLat().lng}&lat=${marker.getLngLat().lat}&index=${index}`}></Link>
-      </div> : <></>}
+      {redirect ? <Redirect to='/locations'/> :
+        <div>
+          <Header />
+          <div ref={mapContainer} className="mapbox"/>
+          {marker ? <div className="info">
+            <button className="btn btn-primary" onClick={handleOnClick}>Aceptar</button>
+          </div> : <></>}
+        </div>
+      }
     </div>
   )
 }

@@ -1,11 +1,21 @@
 .Login {
-
+  background-color: brown;
+  height: -webkit-fill-available;
 }
 
 .Login .login {
-  padding-top: 8.5rem;
+  height: 100vh;
+  padding-top: 8rem;
+}
+
+.Login .login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: -webkit-fill-available;
+  height: 68vh;
+}
+
+.Login .login h1 {
+  color: white;
+
 }

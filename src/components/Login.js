@@ -21,52 +21,55 @@ const Login = () => {
   }
 
   useEffect(() => {
-    const doLogin = chizuServices.login({...data})
+    const doLogin = () => chizuServices.login({...data})
       .then(
         (user) => setUser(user),
         () => setState({ error: true, loading: false })
       )
 
-    if (loading && !error) {
-      doLogin()
-    }
+    if (loading && !error) doLogin()
   }, [loading, error, data, setUser])
 
-  const errorClassName = this.state.error ? 'is-invalid' : ''
+  const errorClassName = state.error ? 'is-invalid' : ''
 
   return (
     <div className="Login">
       <Header/>
-      <form onSubmit={handleSubmit} className="login"> 
-        <div className="form-group">
-          <label>Email</label>
-          <input 
-            className={`form-control ${errorClassName}`} 
-            name="email" 
-            type="email" 
-            value={data.email} 
-            onChange={handleOnChange}
-          />
-        </div>
+      <div className="login">
+        <h1>CHIZU</h1>
+        <form onSubmit={handleSubmit} className="login-form"> 
+          <div className="form-group">
+            <label>Email</label>
+            <input 
+              className={`form-control ${errorClassName}`} 
+              name="email" 
+              type="email" 
+              placeholder="Enter email"
+              value={data.email} 
+              onChange={handleOnChange}
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            className={`form-control ${errorClassName}`}  
-            name="password" 
-            type="password" 
-            value={data.password} 
-            onChange={handleOnChange}
-          />
-        </div>
-        <button 
-          type="submit" 
-          className="btn btn-primary btn-lg" 
-          disabled={this.state.loading}
-        >
-          Login
-        </button>
-      </form>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              className={`form-control ${errorClassName}`}  
+              name="password" 
+              type="password" 
+              placeholder="Enter password"
+              value={data.password} 
+              onChange={handleOnChange}
+            />
+          </div>
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-lg" 
+            disabled={state.loading}
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom'
 import mapboxServices from '../services/MapboxServices'
 import LocationsContext from '../contexts/LocationsContext'
 
-const Location = ({ locationValues }) => {
-  const {start, locations, userLocations, setLocations, handleOnChangeStart} = locationValues
-  const { info } = useContext(LocationsContext)
+const Location = ({ start, userLocations, handleOnChangeStart }) => {
+  const { info, locations, setLocations } = useContext(LocationsContext)
   const [print, setPrint] = useState(false)
-  let search = {}
+  let search = []
 
   useEffect(() => {
     setPrint(true)
@@ -54,7 +53,7 @@ const Location = ({ locationValues }) => {
             <div className="form-group" key={i}>
               <Async 
                 loadOptions= {loadOptions} 
-                placeholder= {info.locations[i] ? info.locations[i].label : `location ${i+1}`}
+                placeholder= {locations[i] ? locations[i].label : `location ${i+1}`}
                 onChange= {(e) => handleOnChange(e, i)}
               />
               <Link to={`/map?index=${i}`} className="btn btn-primary" >Seleccionar en el mapa</Link>

@@ -8,14 +8,13 @@ import '../styles/Locations.css'
 import queryString from 'query-string'
 
 const Locations = () => {
-  const { info, setInfo } = useContext(LocationsContext)
+  const { info, setInfo, locations, setLocations } = useContext(LocationsContext)
   const { currentUser } = useContext(AuthContext)
   const [userLocations, setUserLocations] = useState([])
   const [limit, setLimit] = useState(1)
   const [start, setStart] = useState(null)
   const [redirect, setRedirect] = useState(false)
   const [realLocations, setRealLocations] = useState([])
-  const [locations, setLocations] = useState([...info.locations, ...((new Array(8-info.locations.length)).fill(null))])
   const parse = queryString.parse(window.location.search)
 
   useEffect(() => {
@@ -46,12 +45,29 @@ const Locations = () => {
   }, [locations])
 
   useEffect(() => {
-  })
+    setLimit(realLocations.length)
+  }, [realLocations])
+
+  useEffect(() => {
+    if (locations[parse.index] && parse.value !== locations[parse.index].value) {
+      let newLocations = [...locations]
+      newLocations[parse.index] = {
+        value: parse.value,
+        label: parse.label,
+        coordinates: [parse.lng, parse.lat]
+      }
+      setLocations(newLocations)
+      setRealLocations([...newLocations.filter(loc => loc)])
+    }
+  }, [parse, locations, setLocations])
 
   useEffect(() => {
     return () => setRedirect(false)
   }, [])
 
+  useEffect(()=> {
+    if (!info) setInfo()
+  }, [info, setInfo])
 
   const handleOnChangeLimit = (event) => {
     setLimit(event.target.value)
@@ -64,13 +80,12 @@ const Locations = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     
-    if (!realLocations.length){
-      alert('You have to choose at least 1 location!')
+    if (realLocations.length < 2){
+      alert('You have to choose at least 2 locations!')
     } else if (limit > realLocations.length) {
       alert('Limit cant be greater that the number of locations!')
     } else {
       setInfo({
-        locations: realLocations,
         limit: limit,
         start: start
       })
@@ -78,20 +93,19 @@ const Locations = () => {
     }
   }
 
-  const locationValues = { start, locations, userLocations, setLocations, handleOnChangeStart}
-
   return (
     <div className="Locations">
       {redirect ? <Redirect push to='/best-path'/> : <div>
         <Header />
         <form onSubmit={handleSubmit}>
-          <Location locationValues={locationValues}/>
-          <select value={limit} onChange={handleOnChangeLimit}>
-            {realLocations.map((_, i) => (
-              <option value={i+1} key={i}>{i+1}</option>
-            ))}
+          <Location start={start} userLocations={userLocations} handleOnChangeStart={handleOnChangeStart} />
+          <select value={limit>=2 ? limit : 0} onChange={handleOnChangeLimit}>
+            {realLocations.length ? realLocations.map((_, i) => 
+              <option value={i+1} key={i}>{i+1}</option>) : 
+              <option value={0} key={0}>{0}</option>
+            }
           </select>
-          <button type="submit" className="btn btn-primary btn-lg">GO!</button>
+          <button type="submit" className={`btn btn-primary btn-lg ${realLocations.length<2 ? 'disabled' : ''}`}>GO!</button>
         </form>
       </div>
       }
