@@ -41,86 +41,65 @@ const Map = () => {
       }); 
   
       map.on("load", () => {
-        
-        if (userLocation) {
-          map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
-          map.addSource('user', {
-            'type': 'geojson',
-            'data': {
-              'type': 'FeatureCollection',
-              'features': [{
-                'type': 'Feature',
-                'geometry': {
-                  'type': 'Point',
-                  'coordinates': [
-                    userLocation.lng, 
-                    userLocation.lat
-                  ]
+        if (parse.bestPath) {
+          mapboxServices.directions(parse.bestPath)
+            .then(response => {
+              const points = response.data.routes[0].geometry.coordinates
+              map.flyTo({
+                center: points[Math.floor(points.length/2-1)],
+                zoom: 6
+              })
+              map.addSource('route', {
+                'type': 'geojson',
+                'data': {
+                  'type': 'Feature',
+                  'properties': {},
+                  'geometry': {
+                    'type': 'LineString',
+                    'coordinates': points
+                  }
                 }
-              }]
-            }
-          });
-          map.addLayer({
-            'id': 'user',
-            'type': 'symbol',
-            'source': 'user',
-            'layout': {
-              'icon-image': 'pulsing-dot'
-            }
-          });
-
+              });
+              map.addLayer({
+                  'id': 'route',
+                  'type': 'line',
+                  'source': 'route',
+                  'layout': {
+                  'line-join': 'round',
+                  'line-cap': 'round'
+                },
+                'paint': {
+                  'line-color': '#800000',
+                  'line-width': 8
+                }
+              });
+            })
+          const bestPathCoords = parse.bestPath.split(';').map(loc => loc.split(','))
+          bestPathCoords.map(coord => {
+            let el = document.createElement('div');
+            el.className = 'marker';
+            new mapboxgl.Marker(el)
+              .setOffset({x: 0, y: 22})
+              .setLngLat(coord)
+              .addTo(map)
+            return coord
+          })
         }
         setMap(map);
         map.resize();
       });
       
       map.addControl(new mapboxgl.NavigationControl())
+      map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        })
+      );
     }
-  }, [map, userLocation])
-
-  // useEffect(() => {
-  //   if (map && parse.bestPath) {
-  //     mapboxServices.directions(parse.bestPath)
-  //       .then(response => {
-  //         let geojson = {
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: {
-  //             type: 'LineString',
-  //             coordinates: response.data.routes[0].geometry.coordinates
-  //           }
-  //         }
-  //         if (map.getSource('route')) {
-  //           map.getSource('route').setData(geojson);
-  //         } else { // otherwise, make a new request
-  //           map.addLayer({
-  //             id: 'route',
-  //             type: 'line',
-  //             source: {
-  //               type: 'geojson',
-  //               data: {
-  //                 type: 'Feature',
-  //                 properties: {},
-  //                 geometry: {
-  //                   type: 'LineString',
-  //                   coordinates: geojson
-  //                 }
-  //               }
-  //             },
-  //             layout: {
-  //               'line-join': 'round',
-  //               'line-cap': 'round'
-  //             },
-  //             paint: {
-  //               'line-color': '#3887be',
-  //               'line-width': 5,
-  //               'line-opacity': 0.75
-  //             }
-  //           });
-  //         }
-  //       })
-  //   }
-  // }, [map, parse])
+  }, [map, userLocation, parse])
 
   useEffect(() => {
     if (map && !parse.bestPath) {
