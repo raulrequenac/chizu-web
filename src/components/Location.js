@@ -3,6 +3,7 @@ import Async from 'react-select/async'
 import { Link } from 'react-router-dom'
 import mapboxServices from '../services/MapboxServices'
 import LocationsContext from '../contexts/LocationsContext'
+import '../styles/Location.css'
 
 const Location = ({ start, userLocations, handleOnChangeStart }) => {
   const { info, locations, setLocations } = useContext(LocationsContext)
@@ -48,21 +49,46 @@ const Location = ({ start, userLocations, handleOnChangeStart }) => {
   }
 
   return (
-    <div className="Location">
+    <div className="Location" style={{ paddingTop: '1rem'}}>
       {print ? locations.map((_, i) => (
-            <div className="form-group" key={i}>
+            <div className="form-group chooseLoc" key={i}>
               <Async 
                 loadOptions= {loadOptions} 
                 placeholder= {locations[i] ? locations[i].label : `location ${i+1}`}
                 onChange= {(e) => handleOnChange(e, i)}
               />
-              <Link to={`/map?index=${i}`} className="btn btn-primary" >Seleccionar en el mapa</Link>
-              <button type="button" className="btn btn-danger" onClick={() => onClickDeleteStop(i)}>Borrar parada</button>
-              <input 
-                type="checkbox" 
-                checked={start === i ? true : false} 
-                onChange={() => handleOnChangeStart(i)}
+              <Link to={`/map?index=${i}`} style={{ 
+                display: 'flex',
+                width: '50px',
+                marginLeft: '10px',
+                alignItems: 'center',
+                justifyContent: 'center' }}
+              >
+                <img alt="marker-icon" src="/images/maps-and-flags.svg" style={{ width: '25px' }}/>
+                </Link>
+              <a type="button" href="#" onClick={() => onClickDeleteStop(i)}
+                style={{ 
+                  display: 'flex',
+                  width: '40px',
+                  alignItems: 'center',
+                  justifyContent: 'center' }}
+                >
+                <img alt="marker-icon" src="/images/bin.svg" style={{ width: '25px' }}/>
+              </a>
+              <a type="button" href="#"  onClick={() => handleOnChangeStart(i)}
+              style={{ 
+                display: 'flex',
+                width: '60px',
+                alignItems: 'center',
+                justifyContent: 'center' }}
+              >
+              <img 
+                alt=''
+                src={`${start === i ? '/images/flag-active.svg' : '/images/flag-inactive.svg'}`}
+                style={{ width: '25px' }}
               />
+              </a>
+             
             </div>
           )) : <></>}
     </div>

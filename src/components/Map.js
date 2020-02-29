@@ -5,7 +5,6 @@ import mapboxgl from 'mapbox-gl'
 import Header from './Header'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '../styles/Map.css'
-import pulsingDot from '../constants'
 import { Redirect } from 'react-router-dom'
 import queryString from 'query-string'
 
@@ -69,18 +68,20 @@ const Map = () => {
                   'line-cap': 'round'
                 },
                 'paint': {
-                  'line-color': '#800000',
+                  'line-color': '#A52A2A',
                   'line-width': 8
                 }
               });
             })
           const bestPathCoords = parse.bestPath.split(';').map(loc => loc.split(','))
-          bestPathCoords.map(coord => {
+          bestPathCoords.map((coord, i) => {
             let el = document.createElement('div');
             el.className = 'marker';
             new mapboxgl.Marker(el)
               .setOffset({x: 0, y: 22})
               .setLngLat(coord)
+              .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML('<h3>' + String.fromCharCode(i+65) + '</h3>'))
               .addTo(map)
             return coord
           })
@@ -142,6 +143,7 @@ const Map = () => {
 
     setRedirect(true)
   }
+
 
   return (
     <div className="Map">

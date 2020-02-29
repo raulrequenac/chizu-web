@@ -1,4 +1,7 @@
 .Locations {
   margin-top: 3rem;
-  background-color: brown;
+}
+
+.Locations .error {
+  background-color: #3FF98D;
 }

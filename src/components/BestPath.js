@@ -9,6 +9,7 @@ const BestPath = () => {
   const locs = locations.filter(loc => loc)
   const { limit, start } = info
   const [bestPath, setBestPath] = useState(null)
+  const [error, setError] = useState(false)
 
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const BestPath = () => {
       const coordinates = locs.map(loc => loc.coordinates.join(',')).join(';')
       mapboxServices.matrix(coordinates)
         .then(distances => {
+          HTMLFormControlsCollection.log(distances)
           const directions = [...getCombinations(locs.map((loc, i) => ({loc, i})), limit)]
           const routeDistances = directions.map((direction, i) => 
             direction.reduce((acc, loc, i, dir) => {
@@ -49,13 +51,15 @@ const BestPath = () => {
             }, 0)
           )
 
-          console.log(directions[smallestIndex(routeDistances)])
           setBestPath(directions[smallestIndex(routeDistances)]
             .map(locs => locs.loc.coordinates.join(',')).join(';')
           )
         })
+        .catch(e => setError(true))
     }
   }, [limit, locs])
+
+  if (error) return <Redirect to={`/locations?error=${error}`}/>
   
   return (
     <div className="BestPath">

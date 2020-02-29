@@ -1,0 +1,19 @@
+.Location {
+  padding: 0 !important;
+}
+
+.Location .chooseLoc {
+  display: flex;
+  width: 100vw;
+  justify-content: space-around;
+  padding: 0.5rem 0 0 0.5rem;
+}
+.css-1hb7zxy-IndicatorsContainer{
+  display: none !important;
+}
+.css-yk16xz-control {
+  padding: 0.25rem;
+}
+.Location .css-2b097c-container {
+  width: 100%;
+}
