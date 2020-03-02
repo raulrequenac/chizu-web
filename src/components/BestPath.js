@@ -6,11 +6,9 @@ import LocationsContext from '../contexts/LocationsContext'
 
 const BestPath = () => {
   const { info, locations } = useContext(LocationsContext)
-  const locs = locations.filter(loc => loc)
   const { limit, start } = info
   const [bestPath, setBestPath] = useState(null)
   const [error, setError] = useState(false)
-
 
   useEffect(() => {
     const getCombinations = (locs, limit, results = [], result = []) => {
@@ -39,12 +37,11 @@ const BestPath = () => {
       return lowest;
     }
   
-    if (locs) {
-      const coordinates = locs.map(loc => loc.coordinates.join(',')).join(';')
+    if (locations) {
+      const coordinates = locations.map(loc => loc.coordinates.join(',')).join(';')
       mapboxServices.matrix(coordinates)
         .then(distances => {
-          HTMLFormControlsCollection.log(distances)
-          const directions = [...getCombinations(locs.map((loc, i) => ({loc, i})), limit)]
+          const directions = [...getCombinations(locations.map((loc, i) => ({loc, i})), limit)]
           const routeDistances = directions.map((direction, i) => 
             direction.reduce((acc, loc, i, dir) => {
               return dir[i+1] ? acc + distances.data.durations[loc.i][dir[i+1].i] : acc
@@ -55,15 +52,15 @@ const BestPath = () => {
             .map(locs => locs.loc.coordinates.join(',')).join(';')
           )
         })
-        .catch(e => setError(true))
+        .catch(_ => setError(true))
     }
-  }, [limit, locs])
+  }, [limit, locations])
 
   if (error) return <Redirect to={`/locations?error=${error}`}/>
   
   return (
     <div className="BestPath">
-      {locs ? (bestPath ? <Redirect to={`/map?bestPath=${bestPath}`}/> : <Loading />) : <Redirect to='/locations'/>}
+      {bestPath ? <Redirect to={`/map?bestPath=${bestPath}`}/> : <Loading />}
     </div>
   )
 }

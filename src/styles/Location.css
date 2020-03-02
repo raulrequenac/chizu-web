@@ -17,3 +17,35 @@
 .Location .css-2b097c-container {
   width: 100%;
 }
+
+.Location .chooseLoc img {
+  width: 25px;
+}
+
+.Location .chooseLoc .select-in-map {
+  display: flex;
+  width: 50px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Location .chooseLoc .delete-location {
+  display: flex;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Location .chooseLoc .start-location {
+  display: flex;
+  width: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Location .addLocation {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2.3rem;
+}

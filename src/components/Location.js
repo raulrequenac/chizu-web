@@ -7,12 +7,17 @@ import '../styles/Location.css'
 
 const Location = ({ start, userLocations, handleOnChangeStart }) => {
   const { info, locations, setLocations } = useContext(LocationsContext)
+  const [show, setShow] = useState(locations && locations.length>3 ? locations.length : 3)
   const [print, setPrint] = useState(false)
   let search = []
 
   useEffect(() => {
     setPrint(true)
   }, [info])
+
+  useEffect(() => {
+    setShow(locations.length>3 ? locations.length : 3)
+  }, [locations])
 
   const loadOptions = (query) => {
     return mapboxServices.searchLocation(query)
@@ -41,56 +46,48 @@ const Location = ({ start, userLocations, handleOnChangeStart }) => {
   }
 
   const onClickDeleteStop = (pos) => {
-    const newLocations = [...locations]
-    newLocations[pos] = null
-
+    let newLocations = [...locations]
+    newLocations = [...newLocations.slice(0, pos), ...newLocations.slice(pos+1)]
     setLocations(newLocations)
-    handleOnChange('', pos)
+  }
+
+  const listLocations = () => {
+    let locationList = []
+
+    for (let i=0; i<show; i++) {
+      locationList.push(
+      <div className="form-group chooseLoc" key={i}>
+        <Async 
+          loadOptions= {loadOptions} 
+          placeholder= {locations[i] ? locations[i].label : `Ubicación ${i+1}`}
+          onChange= {(e) => handleOnChange(e, i)}
+        />
+        <Link to={`/map?index=${i}`} className="select-in-map">
+          <img alt="marker-icon" src="/images/maps-and-flags.svg"/>
+        </Link>
+        <div type="button" href="#" onClick={() => onClickDeleteStop(i)} className="delete-location">
+          <img alt="marker-icon" src="/images/bin.svg"/>
+        </div>
+        <div type="button" href="#"  onClick={() => handleOnChangeStart(i)} className='start-location'>
+          <img alt='' src={`${start === i && locations[i] ? '/images/flag-active.svg' : '/images/flag-inactive.svg'}`}/>
+        </div>
+      </div>
+    )}
+    return locationList
+  }
+
+  const onClickAddLocation = () => {
+    if (locations.length === show) setShow(show+1)
   }
 
   return (
     <div className="Location" style={{ paddingTop: '1rem'}}>
-      {print ? locations.map((_, i) => (
-            <div className="form-group chooseLoc" key={i}>
-              <Async 
-                loadOptions= {loadOptions} 
-                placeholder= {locations[i] ? locations[i].label : `location ${i+1}`}
-                onChange= {(e) => handleOnChange(e, i)}
-              />
-              <Link to={`/map?index=${i}`} style={{ 
-                display: 'flex',
-                width: '50px',
-                marginLeft: '10px',
-                alignItems: 'center',
-                justifyContent: 'center' }}
-              >
-                <img alt="marker-icon" src="/images/maps-and-flags.svg" style={{ width: '25px' }}/>
-                </Link>
-              <a type="button" href="#" onClick={() => onClickDeleteStop(i)}
-                style={{ 
-                  display: 'flex',
-                  width: '40px',
-                  alignItems: 'center',
-                  justifyContent: 'center' }}
-                >
-                <img alt="marker-icon" src="/images/bin.svg" style={{ width: '25px' }}/>
-              </a>
-              <a type="button" href="#"  onClick={() => handleOnChangeStart(i)}
-              style={{ 
-                display: 'flex',
-                width: '60px',
-                alignItems: 'center',
-                justifyContent: 'center' }}
-              >
-              <img 
-                alt=''
-                src={`${start === i ? '/images/flag-active.svg' : '/images/flag-inactive.svg'}`}
-                style={{ width: '25px' }}
-              />
-              </a>
-             
-            </div>
-          )) : <></>}
+      {print ? <div>
+        {listLocations()}
+        <div className="addLocation" onClick={onClickAddLocation}>
+          <img alt="" src="/images/add.svg" width="35px"/>
+        </div>
+      </div> : <></>}
     </div>
   )
 }

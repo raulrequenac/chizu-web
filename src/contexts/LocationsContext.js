@@ -3,30 +3,36 @@ import React, {createContext, useState} from 'react'
 const LocationsContext = createContext()
 
 export const LocationsContextProvider = ({ children }) => {
-  const [data, setData] = useState(JSON.parse(localStorage.getItem('info')))
-  const [locs, setLocs] = useState(data.locations)
-
-  const setLocations = (locations) => setLocs(locations)
+  const [data, setData] = useState(JSON.parse(localStorage.getItem('info')) || {
+    locations: [],
+    limit: 1,
+    start: null
+  })
   
   const setInfo = (info) => {
-    localStorage.setItem('info', info ? 
-      JSON.stringify({
-        locations: locs,
-        limit: info.limit,
-        start: info.start
-      }) : 
-      JSON.stringify({
-        locations: (new Array(8)).fill(null), 
-        limit: 1, 
-        start: null
-      }))
-    setData(info)
+    const newData = {
+      locations: data.locations,
+      limit: info.limit,
+      start: info.start
+    }
+    setData(newData)
+    localStorage.setItem('info', JSON.stringify(newData))
+  }
+
+  const setLocations = (locations) => {
+    const newData = {
+      locations: locations,
+      limit: locations.length,
+      start: data.start
+    }
+    setData(newData)
+    localStorage.setItem('info', JSON.stringify(newData))
   }
 
   const value = {
     info: data,
     setInfo,
-    locations: locs,
+    locations: data.locations,
     setLocations
   }
 
