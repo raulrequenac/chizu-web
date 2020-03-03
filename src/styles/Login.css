@@ -1,21 +1,117 @@
 .Login {
-  background-color: brown;
   height: -webkit-fill-available;
 }
 
-.Login .login {
-  height: 100vh;
-  padding-top: 8rem;
+.Login .login .login-title {
+  margin: 6rem 0;
 }
+
+.Login .login .login-title h1 {
+  color: #c22c2c;
+  margin-top: -28%;
+  margin-left: -2%;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-shadow: rgb(255, 255, 255) 3px 0px 0px, 
+    rgb(255, 255, 255) 2.83487px 0.981584px 0px, 
+    rgb(255, 255, 255) 2.35766px 1.85511px 0px, 
+    rgb(255, 255, 255) 1.62091px 2.52441px 0px, 
+    rgb(255, 255, 255) 0.705713px 2.91581px 0px, 
+    rgb(255, 255, 255) -0.287171px 2.98622px 0px, 
+    rgb(255, 255, 255) -1.24844px 2.72789px 0px, 
+    rgb(255, 255, 255) -2.07227px 2.16926px 0px, 
+    rgb(255, 255, 255) -2.66798px 1.37182px 0px, 
+    rgb(255, 255, 255) -2.96998px 0.42336px 0px, 
+    rgb(255, 255, 255) -2.94502px -0.571704px 0px, 
+    rgb(255, 255, 255) -2.59586px -1.50383px 0px, 
+    rgb(255, 255, 255) -1.96093px -2.27041px 0px, 
+    rgb(255, 255, 255) -1.11013px -2.78704px 0px, 
+    rgb(255, 255, 255) -0.137119px -2.99686px 0px, 
+    rgb(255, 255, 255) 0.850987px -2.87677px 0px, 
+    rgb(255, 255, 255) 1.74541px -2.43999px 0px, 
+    rgb(255, 255, 255) 2.44769px -1.73459px 0px, 
+    rgb(255, 255, 255) 2.88051px -0.838247px 0px;
+  }
 
 .Login .login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 68vh;
 }
 
-.Login .login h1 {
-  color: white;
+.Login .login-form .login-group {
+  margin-bottom: 1rem;
+  display: flex;
+  margin-left: 1rem;
+}
 
+.Login .login-form .login-label {
+  margin-right: 1rem;
+  width: 40px;
+}
+
+.Login .login-form .login-input {
+  margin-right: 1rem;
+  width: -webkit-fill-available;
+}
+
+.Login .login-form .login-button {
+  background-color: #3a4e63;
+  margin: 2rem 1rem 0;
+  border: 0;
+  color: white;
+  padding: .5rem;
+  font-size: 1.5rem;
+  border-radius: 5px;
+}
+
+.Login .login .loginBtn { 
+  position: relative;
+  padding: .5rem .5rem .5rem 2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #FFF;
+  width: -webkit-fill-available;
+  margin: .5rem 1rem;
+}
+.Login .login .loginBtn:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 70%;
+  margin: .5rem;
+}
+.Login .login .loginBtn:focus {
+  outline: none;
+}
+.Login .login .loginBtn:active {
+  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+}
+
+.Login .login .loginBtn--google {
+  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+  background: #c22c2c;
+}
+.Login .login .loginBtn--google:before {
+  border-right: #ac1d1d 1px solid;
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
+}
+.Login .login .loginBtn--google:hover,
+.Login .login .loginBtn--google:focus {
+  background: #ac1d1d;
+}
+
+.Login .login .register {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1.2rem;
+}
+
+.Login .login .register a {
+  font-weight: bold;
+  color: #c22c2c;
 }
