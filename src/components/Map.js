@@ -144,18 +144,23 @@ const Map = () => {
     setRedirect(true)
   }
 
+  const showAcceptButton = () => {
+    if (marker) return (
+      <div className="info">
+        <button className="btn btn-primary" onClick={handleOnClick}>Aceptar</button>
+      </div>
+    )
+  }
+
+  if (redirect) return <Redirect to='/locations'/>
 
   return (
     <div className="Map">
-      {redirect ? <Redirect to='/locations'/> :
         <div>
           <Header />
           <div ref={mapContainer} className="mapbox"/>
-          {marker ? <div className="info">
-            <button className="btn btn-primary" onClick={handleOnClick}>Aceptar</button>
-          </div> : <></>}
+          {showAcceptButton()}
         </div>
-      }
     </div>
   )
 }

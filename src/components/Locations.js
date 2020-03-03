@@ -15,6 +15,7 @@ const Locations = () => {
   const [redirect, setRedirect] = useState(false)
   const parse = queryString.parse(window.location.search)
   const [error, setError] = useState(false)
+  const [toHome, setToHome] = useState(false)
 
   useEffect(() => {
     if (parse.error) setError(true)
@@ -74,6 +75,10 @@ const Locations = () => {
   const handleOnChangeStart = (location) => {
     locations[location] && start===location ? setStart(null) : setStart(location)
   }
+
+  const onClickHome = () => {
+    setToHome(true)
+  }
   
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -85,13 +90,15 @@ const Locations = () => {
     setRedirect(true)
   }
 
+  if (toHome) return <Redirect to="/"/>
+
   return (
     <div className="Locations">
       {redirect ? <Redirect push to='/best-path'/> : <div>
         <div className="error" style={{display: `${error ? '' : 'none'}`}}>
           <p>There is no route available.</p>
         </div>
-        <div className="title-container">
+        <div className="title-container" onClick={onClickHome}>
           <img alt="marker-icon" src="/images/map.svg" width="125px"/>
           <h1 className="title"><strong>Encuentra tu camino</strong> eligiendo tus destinos</h1>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import chizuServices from '../services/ChizuServices'
+import { Redirect } from 'react-router-dom'
 
 const Register = () => {
   const { register } = chizuServices
@@ -9,9 +10,8 @@ const Register = () => {
     password: '',
     image: null 
   })
-  const [state, setState] = useState({loading:false, error: false})
+  const [state, setState] = useState({ loading:false, error: false })
   const [success, setSuccess] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
 
   const handleChange = (e) => {
     const { name, value, files } = e.target
@@ -30,17 +30,19 @@ const Register = () => {
     formData.append('password', data.password)
     formData.append('image', data.image)
 
-    setState({loading: true, error: false})
+    setState({ loading: true, error: false })
     register(formData)
     .then(() => {
       setSuccess(true)
     })
     .catch(() => {
-      setState({loading: false, error: true})
+      setState({ loading: false, error: true })
     })
   }
 
   const errorClassName = state.error ? 'is-invalid' : ''
+
+  if (success) return <Redirect to="/"/>
 
   return (
     <div className="Register">

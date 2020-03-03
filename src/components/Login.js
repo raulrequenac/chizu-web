@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import chizuServices from '../services/ChizuServices'
 import AuthContext from '../contexts/AuthContext'
+import queryString from 'query-string'
 import '../styles/Login.css'
 
 const Login = () => {
@@ -11,6 +12,16 @@ const Login = () => {
   const [state, setState] = useState({ error: false, loading: false })
   const { error, loading } = state
   const [toHome, setToHome] = useState(false)
+  const [logged, setLogged] = useState(false)
+  const parse = queryString.parse(window.location.search)
+  const [userValidated, setUserValidated] = useState(false)
+
+  useEffect(() => {
+    if (parse.validated) setUserValidated(true)
+    const interval = setTimeout(() => setUserValidated(false), 3000)
+    
+    return () => clearTimeout(interval)
+  }, [parse.validated])
 
   const handleOnChange = (event) => {
     const {name, value} = event.target
@@ -35,15 +46,29 @@ const Login = () => {
   useEffect(() => {
     if (loading && !error) login({...data})
       .then(
-        (user) => setUser(user),
+        (user) => {
+          setUser(user)
+          setLogged(true)
+        },
         () => setState({ error: true, loading: false })
       )
   }, [loading, error, data, setUser, login])
 
-  const errorClassName = state.error ? 'is-invalid' : ''
+  const showValidated = () => {
+    if (userValidated) return (
+      <div className="validated">
+        User has been validated!
+      </div>
+    )
+  }
 
-  return toHome ? <Redirect to="/"/> : <div className="Login">
-    <div className="login">
+  const errorClassName = state.error ? 'is-invalid' : ''
+  if (toHome) return <Redirect to="/"/>
+  if (logged) return <Redirect to="/profile"/>
+
+  return (
+    <div className="Login">
+      {showValidated()}
       <div className="login-title" onClick={onClickHome}>
         <img alt="" src="/images/lock.svg" width="125px"/>
         <h1>CHIZU</h1>
@@ -87,9 +112,8 @@ const Login = () => {
         <p>¿Todavía no tienes una cuenta?</p>
         <Link to="/register">Registrarse</Link>
       </div>
-      
     </div>
-  </div>
+  )
 }
 
 export default Login

@@ -5,23 +5,22 @@ const http = axios.create({
     withCredentials: true
 })
 
-const register = ({...data}) => http.post('/users/register', {...data})
-const validate = () => http.get('/validate/:validateToken')
-const editUser = ({...data}) => http.patch('/users/edit', {...data})
+const getUsers = () => http.get('/users')
+const register = (data) => http.post('/users/register', data)
+const validate = (token) => http.get(`/users/validate/${token}`)
+const editUser = (data) => http.patch('/users/edit', data)
 const deleteUser = () => http.post('/users/delete')
-const login = (data) => http.post('/login',data)
-const socialLogin = ({...data}) => http.post('/users/socialLogin', {...data})
+const login = (data) => http.post('/login', data)
+const socialLogin = (data) => http.post('/login/google/users', data)
 const logout = () => http.post('/logout')
 
-const addLocation = ({...data}) => http.post('/addLocation', {...data})
-const editLocation = ({...data}) => http.patch('/editLocation/:locationId', {...data})
+const addLocation = (data) => http.post('/addLocation', data)
+const editLocation = (data) => http.patch('/editLocation/:locationId', data)
 const deleteLocation = () => http.post('/deleteLocation/:locationId')
 
-const addRoute = ({...data}) => http.post('/addRoute', {...data})
-const editRoute = ({...data}) => http.patch('/editRoute/:routeId', {...data})
+const addRoute = (data) => http.post('/addRoute', data)
+const editRoute = (data) => http.patch('/editRoute/:routeId', data)
 const deleteRoute = () => http.post('/deleteRoute/:routeId')
-
-const handleUpload = ({...data}) => http.post('upload', {...data})
 
 export default {
     register,
@@ -37,5 +36,5 @@ export default {
     addRoute,
     editRoute,
     deleteRoute,
-    handleUpload
+    getUsers
 }

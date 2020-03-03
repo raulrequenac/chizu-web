@@ -8,7 +8,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const setUser = (user) => {
     localStorage.setItem('user', user ? JSON.stringify(user) : null)
-    setData(user)
+    setData(user || null)
   }
 
   const logout = () => {
