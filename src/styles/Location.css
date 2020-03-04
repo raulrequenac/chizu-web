@@ -1,5 +1,5 @@
 .Location {
-  padding: 0 !important;
+  padding: 0 0 5rem !important;
 }
 
 .Location .chooseLoc {
@@ -42,10 +42,4 @@
   width: 60px;
   align-items: center;
   justify-content: center;
-}
-
-.Location .addLocation {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 2.3rem;
 }

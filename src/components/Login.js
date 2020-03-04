@@ -8,13 +8,13 @@ import '../styles/Login.css'
 const Login = () => {
   const { login, socialLogin } = chizuServices
   const { setUser } = useContext(AuthContext)
+  const [toHome, setToHome] = useState(false)
+  const [logged, setLogged] = useState(false)
+  const [userValidated, setUserValidated] = useState(false)
   const [data, setData] = useState({ email: "", password: "" })
   const [state, setState] = useState({ error: false, loading: false })
   const { error, loading } = state
-  const [toHome, setToHome] = useState(false)
-  const [logged, setLogged] = useState(false)
   const parse = queryString.parse(window.location.search)
-  const [userValidated, setUserValidated] = useState(false)
 
   useEffect(() => {
     if (parse.validated) setUserValidated(true)
@@ -34,14 +34,12 @@ const Login = () => {
   }
 
   const onClickSocialLogin = () => {
-    socialLogin({})
+    socialLogin()
       .then(user => console.log(user))
       .catch(e => console.log(e))
   }
 
-  const onClickHome = () => {
-    setToHome(true)
-  }
+  const onClickHome = () => setToHome(true)
 
   useEffect(() => {
     if (loading && !error) login({...data})
@@ -62,7 +60,7 @@ const Login = () => {
     )
   }
 
-  const errorClassName = state.error ? 'is-invalid' : ''
+  const errorClassName = error ? 'is-invalid' : ''
   if (toHome) return <Redirect to="/"/>
   if (logged) return <Redirect to="/profile"/>
 
@@ -100,7 +98,7 @@ const Login = () => {
         <button 
           type="submit" 
           className="login-button" 
-          disabled={state.loading}
+          disabled={loading}
         >
           Login
         </button>

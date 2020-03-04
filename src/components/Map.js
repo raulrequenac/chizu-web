@@ -14,7 +14,7 @@ const Map = () => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
   const [marker, setMarker] = useState(null)
-  const [markerLocation, setMarkerLocation] = useState({})
+  const [markerLocation, setMarkerLocation] = useState(null)
   const [redirect, setRedirect] = useState(false)
   const parse = queryString.parse(window.location.search)
 
@@ -145,11 +145,19 @@ const Map = () => {
   }
 
   const showAcceptButton = () => {
-    if (marker) return (
-      <div className="info">
-        <button className="btn btn-primary" onClick={handleOnClick}>Aceptar</button>
-      </div>
-    )
+    if (markerLocation) {
+      const street = markerLocation.label.split(',')[0]
+      const city = markerLocation.label.split(',').slice(1)
+      return (
+        <div className="info">
+          <h1 className="info-street">{street}</h1>
+          <h2 className="info-city">{city}</h2>
+          <div className="accept">
+            <button className="accept-button" onClick={handleOnClick}>Aceptar</button>
+          </div>
+        </div>
+      )
+    }
   }
 
   if (redirect) return <Redirect to='/locations'/>

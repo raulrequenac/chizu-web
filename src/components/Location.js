@@ -5,9 +5,8 @@ import mapboxServices from '../services/MapboxServices'
 import LocationsContext from '../contexts/LocationsContext'
 import '../styles/Location.css'
 
-const Location = ({ start, userLocations, handleOnChangeStart }) => {
+const Location = ({ start, userLocations, handleOnChangeStart, show, setShow }) => {
   const { info, locations, setLocations } = useContext(LocationsContext)
-  const [show, setShow] = useState(locations && locations.length>3 ? locations.length : 3)
   const [print, setPrint] = useState(false)
   let search = []
 
@@ -76,17 +75,10 @@ const Location = ({ start, userLocations, handleOnChangeStart }) => {
     return locationList
   }
 
-  const onClickAddLocation = () => {
-    if (locations.length === show) setShow(show+1)
-  }
-
   return (
     <div className="Location" style={{ paddingTop: '1rem'}}>
       {print ? <div>
         {listLocations()}
-        <div className="addLocation" onClick={onClickAddLocation}>
-          <img alt="" src="/images/add.svg" width="35px"/>
-        </div>
       </div> : <></>}
     </div>
   )

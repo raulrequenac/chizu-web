@@ -1,2 +1,18 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve" width="512px" height="512px" class=""><g><circle cx="25" cy="25" r="25" data-original="#43B05C" class="active-path" data-old_color="#43B05C" fill="#70E68B"/><line style="stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" x1="25" y1="13" x2="25" y2="38" stroke="#fff" fill="#fff"/><line style="stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" x1="37.5" y1="25" x2="12.5" y2="25" stroke="#fff" fill="#fff"/></g> </svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="512px" height="512px" class=""><g><g>
+	<g>
+		<path d="M192,0C86.112,0,0,86.112,0,192c0,133.088,173.312,307.936,180.672,315.328C183.808,510.432,187.904,512,192,512    s8.192-1.568,11.328-4.672c0,0,14.08-14.048,34.016-36.96c5.824-6.656,5.12-16.768-1.536-22.592    c-6.624-5.76-16.704-5.088-22.592,1.536c-8.384,9.6-15.68,17.6-21.216,23.52C153.792,432,32,293.664,32,192    c0-88.224,71.776-160,160-160s160,71.776,160,160c0,4.576-0.256,9.44-1.056,14.304c-1.472,8.704,4.384,16.96,13.12,18.432    c8.704,1.376,16.96-4.416,18.432-13.12C383.616,204.96,384,198.304,384,192C384,86.112,297.888,0,192,0z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFFFFF"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M192,96c-52.928,0-96,43.072-96,96s43.072,96,96,96c52.928,0,96-43.072,96-96C288,139.072,244.928,96,192,96z M192,256    c-35.296,0-64-28.704-64-64s28.704-64,64-64s64,28.704,64,64S227.296,256,192,256z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFFFFF"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M384,256c-70.592,0-128,57.408-128,128s57.408,128,128,128s128-57.408,128-128S454.592,256,384,256z M384,480    c-52.928,0-96-43.072-96-96c0-52.928,43.072-96,96-96c52.928,0,96,43.072,96,96C480,436.928,436.928,480,384,480z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFFFFF"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M432,368h-32v-32c0-8.832-7.168-16-16-16c-8.832,0-16,7.168-16,16v32h-32c-8.832,0-16,7.168-16,16c0,8.832,7.168,16,16,16    h32v32c0,8.832,7.168,16,16,16c8.832,0,16-7.168,16-16v-32h32c8.832,0,16-7.168,16-16C448,375.168,440.832,368,432,368z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFFFFF"/>
+	</g>
+</g></g> </svg>

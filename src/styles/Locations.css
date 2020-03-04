@@ -1,5 +1,6 @@
 .Locations {
-  margin-top: 3rem;
+  height: 100vh;
+  padding-top: 4rem;
 }
 
 .Locations .error {
@@ -67,16 +68,37 @@
   padding: 0 1rem;
 }
 
-.Locations .submit-button {
-  background-color: #24303a;
-  border: 0;
+.Locations .buttons {
   width: -webkit-fill-available;
-  margin: 2.5rem 1rem 0;
-  padding: .5rem;
-  border-radius: 50px;
+  margin: 4.5rem 1rem 1rem;
+  display: flex;
+  bottom: 0;
+  position: fixed;
+}
+
+.Locations .addLocation {
+  display: flex;
+  padding: .5rem 0 .5rem 2rem;
+  border-radius: 50px 0 0 50px;
+  background-color: #24303a;
+}
+
+.Locations .addLogo {
+  width: 4rem;
+  padding-right: 1.5rem;
+  border-right: 2px solid white;
+}
+
+.Locations .submit-button {
   font-size: 2rem;
   font-weight: 600;
   color: white;
+  background-color: #24303a;
+  padding: .5rem 6rem .5rem 0rem;
+  border-radius: 0 50px 50px 0;
+  border: 0;
+  padding-left: 5rem;
+  margin-left: -0.6px;
 }
 
 .Locations .disabled {

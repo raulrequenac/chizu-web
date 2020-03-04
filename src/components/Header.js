@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { Redirect, useHistory, Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { Redirect, Link } from 'react-router-dom'
 import '../styles/Header.css'
 import ChizuServices from '../services/ChizuServices'
 import AuthContext from '../contexts/AuthContext'
@@ -9,48 +9,50 @@ const Header = ({move}) => {
   const { setUser, currentUser } = useContext(AuthContext)
   const [toHome, setToHome] = useState(false)
   const [toLocations, setToLocations] = useState(false)
-  const { goBack } = useHistory()
-  const [dropdownMenu, setDropdownMenu] = useState(true)
   const [dropdownContent, setDropdownContent] = useState(false)
+  const [logged, setLogged] = useState(false)
   const path = window.document.location.pathname
 
-  const onClickDropdown = () => {
-    setDropdownContent(true)
-  }
+  useEffect(() => {
+    currentUser ? setLogged(true) : setLogged(false)
+  }, [currentUser])
 
-  const onBlurDropdown = () => {
-    setDropdownContent(false)
-  }
+  const onClickDropdown = () => setDropdownContent(true)
 
-  const onClickLogout = () => {
-    logout().then(user => {
-      console.log(user)
-      setUser()
-    })
-  }
+  const onBlurDropdown = () => {console.log('hola'); setDropdownContent(false)}
+
+  const onClickLogout = () => logout().then(() => setUser())
+
+  const onClickRedirect = () => path === '/map' ? setToLocations(true) : setToHome(true)
 
   const showDropdownContent = () => {
-    if (dropdownContent && currentUser) {
+    if (dropdownContent && logged) {
       return (
         <div className="dropdown-content">
-          <Link to="">Profile</Link>
-          <p onClick={onClickLogout}>Logout</p>
+          <Link to="">
+            <img alt="" src="/images/profile.svg" width="30px"/>
+          </Link>
+          <div onClick={onClickLogout}>
+            <img alt="" src="/images/logout.svg" width="30px"/>
+          </div>
         </div>
       )
-    } else if (dropdownContent && !currentUser) {
+    } else if (dropdownContent && !logged) {
       return (
         <div className="dropdown-content">
-          <Link to="/login">Login</Link>
+          <Link to="/login">
+            <img alt="" src="/images/login.svg" width="30px"/>
+          </Link>
         </div>
       )
     }
   }
 
   const showDropdownMenu = () => {
-    if (!(path === '/' && !currentUser)) return (
+    if (!(path === '/' && !logged)) return (
       <div className="dropdown" onClick={onClickDropdown} onBlur={onBlurDropdown}>
         <div className="dropbtn">
-          Menu
+          <img alt="" src="/images/menu.svg" width="30px"/>
         </div>
         {showDropdownContent()}
       </div>
@@ -62,7 +64,12 @@ const Header = ({move}) => {
 
   return (
     <nav className="Header navbar fixed-top">
-      <img className={`logo navbar-brand ${move ? 'slide-out-right' : ''}`} alt="logo" src="/images/chizu-logo.svg" onClick={goBack} />
+      <img 
+        className={`logo navbar-brand ${move ? 'slide-out-right' : ''}`} 
+        alt="logo" 
+        src="/images/chizu-logo.svg" 
+        onClick={onClickRedirect} 
+      />
       {showDropdownMenu()}
     </nav>
   )

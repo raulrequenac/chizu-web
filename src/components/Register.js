@@ -4,14 +4,17 @@ import { Redirect } from 'react-router-dom'
 
 const Register = () => {
   const { register } = chizuServices
+  const [toHome, setToHome] = useState(false)
+  const [state, setState] = useState({ loading:false, error: false })
+  const [success, setSuccess] = useState(false)
   const [data, setData] = useState({
     name: '',
     email: '',
     password: '',
     image: null 
   })
-  const [state, setState] = useState({ loading:false, error: false })
-  const [success, setSuccess] = useState(false)
+
+  const onClickHome = () => setToHome(true)
 
   const handleChange = (e) => {
     const { name, value, files } = e.target
@@ -32,20 +35,20 @@ const Register = () => {
 
     setState({ loading: true, error: false })
     register(formData)
-    .then(() => {
-      setSuccess(true)
-    })
-    .catch(() => {
-      setState({ loading: false, error: true })
-    })
+      .then(() => setSuccess(true))
+      .catch(() => setState({ loading: false, error: true }))
   }
 
   const errorClassName = state.error ? 'is-invalid' : ''
 
-  if (success) return <Redirect to="/"/>
+  if (success || toHome) return <Redirect to="/"/>
 
   return (
     <div className="Register">
+      <div className="register-title" onClick={onClickHome}>
+        <img alt="" src="/images/register.svg" width="125px"/>
+        <h1>CHIZU</h1>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Nombre</label>

@@ -11,7 +11,7 @@ const validate = (token) => http.get(`/users/validate/${token}`)
 const editUser = (data) => http.patch('/users/edit', data)
 const deleteUser = () => http.post('/users/delete')
 const login = (data) => http.post('/login', data)
-const socialLogin = (data) => http.post('/login/google/users', data)
+const socialLogin = () => http.post('/login/google/users')
 const logout = () => http.post('/logout')
 
 const addLocation = (data) => http.post('/addLocation', data)

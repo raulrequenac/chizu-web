@@ -13,9 +13,10 @@ const Locations = () => {
   const [limit, setLimit] = useState(1)
   const [start, setStart] = useState(null)
   const [redirect, setRedirect] = useState(false)
-  const parse = queryString.parse(window.location.search)
   const [error, setError] = useState(false)
   const [toHome, setToHome] = useState(false)
+  const [show, setShow] = useState(locations && locations.length>3 ? locations.length : 3)
+  const parse = queryString.parse(window.location.search)
 
   useEffect(() => {
     if (parse.error) setError(true)
@@ -33,7 +34,7 @@ const Locations = () => {
         coordinates: [el.coords.longitude, el.coords.latitude]
       })
     })
-    if (currentUser) {
+    if (currentUser && currentUser.locations) {
       currentUser.locations.map(location => {
         newOptions.push({
           value: location.id, 
@@ -68,16 +69,14 @@ const Locations = () => {
     return () => setRedirect(false)
   }, [])
 
-  const handleOnChangeLimit = (event) => {
-    setLimit(event.target.value)
-  }
+  const handleOnChangeLimit = (event) => setLimit(event.target.value)
 
-  const handleOnChangeStart = (location) => {
-    locations[location] && start===location ? setStart(null) : setStart(location)
-  }
+  const handleOnChangeStart = (location) => locations[location] && start===location ? setStart(null) : setStart(location)
 
-  const onClickHome = () => {
-    setToHome(true)
+  const onClickHome = () => setToHome(true)
+
+  const onClickAddLocation = () => {
+    if (locations.length === show) setShow(show+1)
   }
   
   const handleSubmit = (e) => {
@@ -115,8 +114,19 @@ const Locations = () => {
           <div className="separator">
             <hr></hr>
           </div>
-          <Location start={start} userLocations={userLocations} handleOnChangeStart={handleOnChangeStart} />
-          <button type="submit" className={`submit-button ${locations.length<2 ? 'disabled' : ''}`}>GO!</button>
+          <Location 
+            start={start} 
+            userLocations={userLocations} 
+            handleOnChangeStart={handleOnChangeStart} 
+            show={show}
+            setShow={setShow}
+            />
+          <div className="buttons">
+            <div className={`addLocation ${locations.length === show ? '' : 'disabled'}`} onClick={onClickAddLocation}>
+              <img alt="" src="/images/add.svg" className="addLogo"/>
+            </div>
+            <button type="submit" className={`submit-button ${locations.length<2 ? 'disabled' : ''}`}>GO!</button>
+          </div>
         </form>
       </div>
       }
