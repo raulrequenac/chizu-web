@@ -64,10 +64,10 @@ const Location = ({ start, userLocations, handleOnChangeStart, show, setShow }) 
         <Link to={`/map?index=${i}`} className="select-in-map">
           <img alt="marker-icon" src="/images/maps-and-flags.svg"/>
         </Link>
-        <div type="button" href="#" onClick={() => onClickDeleteStop(i)} className="delete-location">
+        <div href="#" onClick={() => onClickDeleteStop(i)} className="delete-location">
           <img alt="marker-icon" src="/images/bin.svg"/>
         </div>
-        <div type="button" href="#"  onClick={() => handleOnChangeStart(i)} className='start-location'>
+        <div href="#"  onClick={() => handleOnChangeStart(i)} className='start-location'>
           <img alt='' src={`${start === i && locations[i] ? '/images/flag-active.svg' : '/images/flag-inactive.svg'}`}/>
         </div>
       </div>

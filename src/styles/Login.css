@@ -73,6 +73,7 @@
 .Login .login-form .login-label {
   margin-right: 1rem;
   width: 40px;
+  height: 100%;
 }
 
 .Login .login-form .login-input {

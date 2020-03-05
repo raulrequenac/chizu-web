@@ -89,6 +89,10 @@
   border-right: 2px solid white;
 }
 
+.Locations .addLogo img {
+  height: 100%;
+}
+
 .Locations .submit-button {
   font-size: 2rem;
   font-weight: 600;
