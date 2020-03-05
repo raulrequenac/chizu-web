@@ -10,13 +10,8 @@ const Validate = () =>{
 
   useEffect(() => {
     validate(token)
-    .then(user => {
-      console.log(user)
-      setStatus({ loading: false, error: false })
-    })
-    .catch(() => {
-      setStatus({ loading: false, error: true })
-    })
+      .then(() => setStatus({ loading: false, error: false }))
+      .catch(() => setStatus({ loading: false, error: true }))
   }, [validate, token])
 
   if (status.error) return <Redirect to='/'/>

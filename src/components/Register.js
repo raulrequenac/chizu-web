@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import chizuServices from '../services/ChizuServices'
 import { Redirect } from 'react-router-dom'
+import '../styles/Register.css'
 
 const Register = () => {
   const { register } = chizuServices
@@ -41,7 +42,8 @@ const Register = () => {
 
   const errorClassName = state.error ? 'is-invalid' : ''
 
-  if (success || toHome) return <Redirect to="/"/>
+  if (toHome) return <Redirect to="/"/>
+  if (success) return <Redirect to="/login?registered=true"/>
 
   return (
     <div className="Register">
@@ -49,66 +51,68 @@ const Register = () => {
         <img alt="" src="/images/register.svg" width="125px"/>
         <h1>CHIZU</h1>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Nombre</label>
-
+      <form onSubmit={handleSubmit} className="register-form">
+        <div className="form-group register-group">
+          <img alt="" src="/images/name.svg" width="30px" className="register-label"/>
           <input
+            className={`form-control register-input ${errorClassName}`} 
             value={data.name}
             onChange={handleChange}
             autoComplete="off"
             name="name"
             type="text"
-            className={`form-control ${errorClassName}`}
             id="name"
-            placeholder="Enter name"
+            placeholder="Nombre"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-
+        <div className="form-group register-group">
+          <img alt="" src="/images/mail.svg" width="30px" className="register-label"/>
           <input
+            className={`form-control register-input ${errorClassName}`} 
             value={data.email}
             onChange={handleChange}
             autoComplete="off"
             name="email"
             type="email"
-            className={`form-control ${errorClassName}`}
             id="email"
-            placeholder="Enter email"
+            placeholder="Email"
           />
         </div>
 
-        <div className="form-group mb-5">
-          <label htmlFor="password">Contraseña</label>
-
+        <div className="form-group register-group">
+          <img alt="" src="/images/key.svg" width="30px" className="register-label"/>
           <input
+            className={`form-control register-input ${errorClassName}`} 
             value={data.password}
             onChange={handleChange}
             name="password"
             type="password"
-            className={`form-control ${errorClassName}`}
             id="password"
-            placeholder="Password"
+            placeholder="Contraseña"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="image">Imagen</label>
-
-          <input
-            onChange={handleChange}
-            name="image"
-            type="file"
-            className={`form-control ${errorClassName}`}
-            id="image"
-          />
+        <div className="form-group register-group">
+          <img alt="" src="/images/image.svg" width="30px" className="register-label"/>
+          <label className={'form-control register-input'}>
+            Eliga una imagen
+            <img alt="" src="/images/search.svg" width="25px" className="register-image-search"/>
+            <input
+              onChange={handleChange}
+              name="image"
+              type="file"
+              id="image"
+            />
+          </label>
+          
         </div>
+
+        {errorClassName ? <small className="error">Algo ha ocurrido mal.</small> : <></>}
 
         <button
           type="submit"
-          className="btn btn-block btn-primary mb-3"
+          className="register-button"
           disabled={state.loading}
         >
           Registrarse

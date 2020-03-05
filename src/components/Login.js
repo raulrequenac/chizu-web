@@ -11,17 +11,25 @@ const Login = () => {
   const [toHome, setToHome] = useState(false)
   const [logged, setLogged] = useState(false)
   const [userValidated, setUserValidated] = useState(false)
+  const [userRegistered, setUserRegistered] = useState(false)
+  const [popUp, setPopUp] = useState(false)
   const [data, setData] = useState({ email: "", password: "" })
   const [state, setState] = useState({ error: false, loading: false })
   const { error, loading } = state
   const parse = queryString.parse(window.location.search)
 
   useEffect(() => {
-    if (parse.validated) setUserValidated(true)
-    const interval = setTimeout(() => setUserValidated(false), 3000)
+    let interval = null
+    if (parse.validated) {
+      setUserValidated(true)
+      interval = setTimeout(() => setPopUp(true), 3000)
+    } else if (parse.registered) {
+      setUserRegistered(true)
+      interval = setTimeout(() => setPopUp(true), 3000)
+    }
     
     return () => clearTimeout(interval)
-  }, [parse.validated])
+  }, [parse])
 
   const handleOnChange = (event) => {
     const {name, value} = event.target
@@ -35,8 +43,13 @@ const Login = () => {
 
   const onClickSocialLogin = () => {
     socialLogin()
-      .then(user => console.log(user))
-      .catch(e => console.log(e))
+      .then(user => {
+        setUser(user)
+        setLogged(true)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   const onClickHome = () => setToHome(true)
@@ -48,42 +61,53 @@ const Login = () => {
           setUser(user)
           setLogged(true)
         },
-        () => setState({ error: true, loading: false })
+        (e) => {
+          console.log(e)
+          setState({ error: true, loading: false })
+        }
       )
   }, [loading, error, data, setUser, login])
 
-  const showValidated = () => {
-    if (userValidated) return (
-      <div className="validated">
-        User has been validated!
-      </div>
-    )
+  const showPopUp = () => {
+    if (userValidated) {
+      return (
+        <div className="validated">
+          ¡Has sido validado!
+        </div>
+      )
+    } else if (userRegistered) {
+      return (
+        <div className="validated">
+          ¡Has sido registrado!
+        </div>
+      )
+    }
   }
 
   const errorClassName = error ? 'is-invalid' : ''
   if (toHome) return <Redirect to="/"/>
   if (logged) return <Redirect to="/profile"/>
+  if (popUp) return <Redirect to="/login"/>
 
   return (
     <div className="Login">
-      {showValidated()}
+      {showPopUp()}
       <div className="login-title" onClick={onClickHome}>
         <img alt="" src="/images/lock.svg" width="125px"/>
         <h1>CHIZU</h1>
       </div>
       <form onSubmit={handleSubmit} className="login-form"> 
         <div className="form-group login-group">
-        <img alt="" src="/images/mail.svg" className="login-label"/>
-          <input 
-            className={`form-control login-input ${errorClassName}`} 
-            name="email" 
-            type="email" 
-            placeholder="Email"
-            value={data.email} 
-            onChange={handleOnChange}
-          />
+          <img alt="" src="/images/mail.svg" className="login-label"/>
+            <input 
+              className={`form-control login-input ${errorClassName}`} 
+              name="email" 
+              type="email" 
+              placeholder="Email"
+              value={data.email} 
+              onChange={handleOnChange}
+            />
         </div>
-
         <div className="form-group login-group">
           <img alt="" src="/images/key.svg" className="login-label"/>
           <input
@@ -95,6 +119,9 @@ const Login = () => {
             onChange={handleOnChange}
           />
         </div>
+
+        {errorClassName ? <small className="error">Algo ha ocurrido mal.</small> : <></>}
+
         <button 
           type="submit" 
           className="login-button" 
